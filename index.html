@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mon diaporama</title>
+	<meta name="author" content="rivel babindamana">
+
+	<script type="text/javascript" src="d3.js"></script>
+	<script type="text/javascript" src="svg_slides.js"></script>
+	<script type="text/javascript">
+		// There are probably better ways of loading the SVG, but this is one example I found
+		var svg, diagIframe;
+		d3.xml("diapo.svg", "image/svg+xml", function(xml) {
+			d3.select("body").node().appendChild(xml.documentElement);
+
+			svg = d3.select("body").select("svg")
+				.attr("height", "100%")
+				.attr("width", "100%");
+			slides = svg_slides(svg, 1500);
+			diagIframe = document.getElementById("diagIframe");
+
+		});
+	</script>
+	<style type="text/css">
+		#promptCompat {
+			display: none;
+		}
+
+		#promptCompat.no_dialog {
+			box-shadow: 0 0 5px 2px red;
+			padding: 10px;
+			display: block;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		dialog {
+			border-radius: 10px;
+			box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+		}
+
+		dialog::backdrop {
+			background-color: rgba(0, 0, 0, 0.6);
+		}
+
+		.btnDiag {
+			padding: 10px;
+			height: 20px;
+		}
+
+		#outdiv {
+			height: 400px;
+			width: 600px;
+			overflow: hidden;
+		}
+
+		#ifDiag {
+			height: 100%;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<p id="promptCompat">Votre navigateur ne pend pas en charge les balises <code><dialog></code></p>
+	<dialog id="diagIframe" close>
+		<div class="btnDiag">
+			<button onclick="diagIframe.close()">Fermer</button>
+			<a id="ifURL" href="" target="_blank"></a>
+		</div>
+		<div id="outdiv">
+			<iframe id="ifDiag" src="#" />
+		</div>
+	</dialog>
+</body>
+
+</html>
